@@ -5,6 +5,7 @@ import json
 # Create your views here.
 from .models import TaskList
 
+@csrf_exempt
 def ViewList(request):
     if request.method == 'GET':
         all_tasks = serializers.serialize('json', TaskList.objects.all())
