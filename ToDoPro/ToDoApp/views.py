@@ -8,8 +8,10 @@ from .models import TaskList
 @csrf_exempt
 def ViewList(request):
     if request.method == 'GET':
-        all_tasks = serializers.serialize('json', TaskList.objects.all())
-        return JsonResponse({'success':True,'all_tasks':json.loads(all_tasks)})
+        # all_tasks = serializers.serialize('json', TaskList.objects.all())
+        # return JsonResponse({'success':True,'all_tasks':json.loads(all_tasks)})
+        all_tasks = list(TaskList.objects.all().values('id','title'))
+        return JsonResponse({'success':True,'data': all_tasks})
 
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -59,7 +61,7 @@ def EditDeleteListItem(request,list_id):
         return JsonResponse({'success':True,'operation':'delete'})
 
     else:
-        _task = serializers.serialize('json', [task_item])
+        _task = task_item
         return JsonResponse({'success': True,'operation':'update', 'updated_task': json.loads(_task)})   
                     
 
